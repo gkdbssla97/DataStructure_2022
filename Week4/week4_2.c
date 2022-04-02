@@ -1,5 +1,5 @@
 //
-// Created by 하윤 on 2022/03/30.
+// Created by 하윤 on 2022/04/02.
 //
 
 #include <stdio.h>
@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main(void) {
-    int N, arr[100] = {NULL}, K, swit[100] = {NULL};
+    int N, arr[100] = {NULL} , K, sequence[100] = {NULL};
     scanf("%d", &N);
     getchar();
     for (int i = 0; i < N; i++)
@@ -15,12 +15,15 @@ int main(void) {
     scanf("%d", &K);
     getchar();
     for (int i = 0; i < K; i++)
-        scanf("%d", &swit[i]);
+        scanf("%d", &sequence[i]);
 
-    int i, tmp1 = arr[swit[0]], tmp2;
-    for (i = K - 1; i >= 0; i--) {
-        arr[swit[i]] = arr[swit[i - 1]];
+    // 3 8 0 9 3
+    int p_end = arr[sequence[K - 2]], p_start = arr[sequence[0]];
+    for (int i = K - 2; i > 0; i--) {
+        arr[sequence[i]] = arr[sequence[i - 1]];
     }
+    arr[sequence[0]] = p_end;
+
     for (int i = 0; i < N; i++)
         printf(" %d", arr[i]);
 
