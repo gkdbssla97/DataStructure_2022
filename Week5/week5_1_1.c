@@ -1,5 +1,5 @@
 //
-// Created by 하윤 on 2022/04/09.
+// Created by 하윤 on 2022/04/07.
 //
 
 #include <stdio.h>
@@ -141,7 +141,7 @@ void print(List *list) {
     } printf("\n");
 }
 void InvalidError() {
-    printf("invalid position\n");
+    printf("Invalid position\n");
 }
 /*
  * 5
