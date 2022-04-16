@@ -19,12 +19,11 @@ typedef struct List{
 void init(LIST *list);
 NODE * appendTerm(NODE * k, int c, int e);
 NODE * addPoly(LIST *x, LIST *y);
-
+void freeList(LIST * list);
 int main(void) {
-    LIST x, y, z;
+    LIST x, y;
     init(&x);
     init(&y);
-    init(&z);
 
     NODE *cur = x.head;
 
@@ -49,8 +48,12 @@ int main(void) {
     while(cur != NULL) {
         if (cur->coef != 0)
             printf(" %d %d", cur->coef, cur->exp);
+        NODE * rm = cur;
         cur = cur->next;
+        free(rm);
     }
+    freeList(&x);
+    freeList(&y);
 
     return 0;
 }
@@ -66,6 +69,7 @@ NODE * appendTerm(NODE * k, int c, int e) {
     t->next = NULL;
     k->next = t;
     k = t;
+
     return k;
 }
 NODE * addPoly(LIST *x, LIST *y) {
@@ -103,4 +107,13 @@ NODE * addPoly(LIST *x, LIST *y) {
     }
 
     return result;
+}
+void freeList(LIST * list) {
+    NODE * rm;
+    while (list->head != NULL) {
+        rm = list->head;
+        list->head = list->head->next;
+        free(rm);
+        rm = NULL;
+    }
 }
