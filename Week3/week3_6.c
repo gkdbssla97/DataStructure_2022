@@ -20,5 +20,13 @@ int recursive(int a, int b) {
     else if (b == 0)
         return a;
     return recursive(b, a % b);
-
 }
+/*
+ * Alg recursive(a, b)
+ *  tmp <- 0
+ *  if (a = 0)
+ *      return b
+ *  else if(b = 0)
+ *      return a
+ *  return recursive(b, a % b)
+ */
