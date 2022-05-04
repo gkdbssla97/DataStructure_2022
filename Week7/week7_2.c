@@ -12,7 +12,9 @@ typedef struct NODE {
 
 void init(NODE *node);
 void addNode(NODE *node, int elem);
-int subset(NODE *A, NODE *B);
+NODE * union_(NODE *A, NODE *B);
+NODE * intersect(NODE *A, NODE *B);
+void print(NODE *C);
 void freeNode(NODE *node);
 int main(void) {
     int A_size, B_size, val;
@@ -25,26 +27,20 @@ int main(void) {
     for(int i = 0; i < A_size; i++) {
         scanf("%d", &val);
         addNode(A, val);
-    } getchar();
-    while (A != NULL) {
-        printf("%d ", A->elem);
-        A = A->next;
     }
+
     scanf("%d", &B_size);
     getchar();
     for(int i = 0; i < B_size; i++) {
         scanf("%d", &val);
         addNode(B, val);
-    } getchar();
-    while (B != NULL) {
-        printf("%d ", B->elem);
-        B = B->next;
     }
-    int result = subset(A,B);
-    printf("%d\n", result);
+
+    print(union_(A, B));
+    print(intersect(A, B));
 
     freeNode(A);
-    freeNode(B;)
+    freeNode(B);
 
     return 0;
 }
@@ -61,23 +57,78 @@ void addNode(NODE *node, int e) {
         node = node->next;
     node->next = newNode;
 }
-int subset(NODE *A, NODE *B) {
-    if (A == NULL)
-        return 0;
-    else {
-        while (A != NULL) {
-            if(B == NULL)
-                return A->elem;
-            else if (A->elem < B->elem)
-                return A->elem;
-            else if (A->elem > B->elem)
-                B = B->next;
-            else {
-                A = A->next;
-                B = B->next;
-            }
-        } return 0;
+NODE * union_(NODE *A, NODE *B) {
+    NODE *A_u = A;
+    NODE *B_u = B;
+
+    NODE *C = (NODE *) malloc(sizeof(NODE));
+    init(C);
+    if((A_u->next == NULL) && (B_u->next == NULL))
+        return C;
+    else if(A_u->next == NULL) {
+        freeNode(C);
+        return B_u;
     }
+    else if(B_u->next == NULL) {
+        freeNode(C);
+        return A_u;
+    }
+    else {
+        A_u = A_u->next;
+        B_u = B_u->next;
+
+        while((A_u != NULL) && (B_u != NULL)) {
+            if(A_u->elem < B_u->elem) {
+                addNode(C, A_u->elem);
+                A_u = A_u->next;
+            }
+            else if(A_u->elem > B_u->elem) {
+                addNode(C, B_u->elem);
+                B_u = B_u->next;
+            }
+            else {
+                addNode(C, B_u->elem);
+                A_u = A_u->next;
+                B_u = B_u->next;
+            }
+        } while(A_u != NULL) {
+            addNode(C, A_u->elem);
+            A_u = A_u->next;
+        } while(B_u != NULL) {
+            addNode(C, B_u->elem);
+            B_u = B_u->next;
+        }
+    } return C;
+}
+NODE * intersect(NODE *A, NODE *B) {
+    NODE *A_u = A;
+    NODE *B_u = B;
+
+    NODE *C = (NODE *) malloc(sizeof(NODE));
+    init(C);
+    if((A_u->next == NULL) && (B_u->next == NULL))
+        return C;
+    else if(A_u->next == NULL) {
+        return C;
+    }
+    else if(B_u->next == NULL) {
+        return C;
+    }
+    else {
+        A_u = A_u->next;
+        B_u = B_u->next;
+        while ((A_u != NULL) && (B_u != NULL)) {
+            if (A_u->elem < B_u->elem) {
+                A_u = A_u->next;
+            } else if (A_u->elem > B_u->elem) {
+                B_u = B_u->next;
+            } else {
+                addNode(C, B_u->elem);
+                A_u = A_u->next;
+                B_u = B_u->next;
+            }
+        }
+    } return C;
 }
 void freeNode(NODE *node) {
     NODE * tmp = node;
@@ -85,5 +136,16 @@ void freeNode(NODE *node) {
         node = node->next;
         free(tmp);
         tmp = node;
+    }
+}
+void print(NODE * C) {
+    NODE * result = C->next;
+    if (result == NULL)
+        printf(" 0\n");
+    else {
+        while (result != NULL) {
+            printf(" %d", result->elem);
+            result = result->next;
+        } printf("\n");
     }
 }
