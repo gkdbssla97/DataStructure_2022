@@ -1,5 +1,5 @@
 //
-// Created by 하윤 on 2022/04/27.
+// Created by 하윤 on 2022/05/06.
 //
 
 #include <stdio.h>
@@ -10,7 +10,7 @@ typedef struct NODE {
     int elem;
 } NODE;
 
-void init(NODE *node);
+void init_FirstNode(NODE *node);
 void addNode(NODE *node, int elem);
 NODE * union_(NODE *A, NODE *B);
 NODE * intersect(NODE *A, NODE *B);
@@ -20,8 +20,8 @@ int main(void) {
     int A_size, B_size, val;
     NODE *A = (NODE *) malloc(sizeof(NODE));
     NODE *B = (NODE *) malloc(sizeof(NODE));
-    init(A);
-    init(B);
+    init_FirstNode(A);
+    init_FirstNode(B);
     scanf("%d", &A_size);
     getchar();
     for(int i = 0; i < A_size; i++) {
@@ -36,15 +36,20 @@ int main(void) {
         addNode(B, val);
     }
 
-    print(union_(A, B));
-    print(intersect(A, B));
+    NODE *C = union_(A, B);
+    NODE *D = intersect(A, B);
+
+    print(C);
+    print(D);
 
     freeNode(A);
     freeNode(B);
+    freeNode(C);
+    freeNode(D);
 
     return 0;
 }
-void init(NODE *node) {
+void init_FirstNode(NODE *node) {
     node->elem = 0;
     node->next = NULL;
 }
@@ -62,7 +67,7 @@ NODE * union_(NODE *A, NODE *B) {
     NODE *B_u = B;
 
     NODE *C = (NODE *) malloc(sizeof(NODE));
-    init(C);
+    init_FirstNode(C);
     if((A_u->next == NULL) && (B_u->next == NULL))
         return C;
     else if(A_u->next == NULL) {
@@ -105,7 +110,7 @@ NODE * intersect(NODE *A, NODE *B) {
     NODE *B_u = B;
 
     NODE *C = (NODE *) malloc(sizeof(NODE));
-    init(C);
+    init_FirstNode(C);
     if((A_u->next == NULL) && (B_u->next == NULL))
         return C;
     else if(A_u->next == NULL) {

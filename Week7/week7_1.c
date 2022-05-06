@@ -26,30 +26,24 @@ int main(void) {
         scanf("%d", &val);
         addNode(A, val);
     } getchar();
-    while (A != NULL) {
-        printf("%d ", A->elem);
-        A = A->next;
-    }
+
     scanf("%d", &B_size);
     getchar();
     for(int i = 0; i < B_size; i++) {
         scanf("%d", &val);
         addNode(B, val);
     } getchar();
-    while (B != NULL) {
-        printf("%d ", B->elem);
-        B = B->next;
-    }
+
     int result = subset(A,B);
     printf("%d\n", result);
 
     freeNode(A);
-    freeNode(B;)
+    freeNode(B);
 
     return 0;
 }
 void init(NODE *node) {
-    node->elem = 0;
+    node->elem = NULL;
     node->next = NULL;
 }
 void addNode(NODE *node, int e) {
