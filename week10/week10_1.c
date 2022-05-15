@@ -104,11 +104,3 @@ int priority(char op) {
             return 6;
     }
 }
-/*
- * A*B+C+(D+E)*F
-A+B*C
-A/B-C+D*E-F*G
-A+(B*C+D)*E
-A&&B||C||!(E>F)
-
- */
