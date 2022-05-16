@@ -17,7 +17,7 @@ Alg mostOnes1(A, n)
             if(i = n)
                 return row  # Total O(n)
 
-Alg mostOnes1(A, n)
+Alg mostOnes2(A, n)
     #input: bit matrix A[n X n]
     #output: the row of A with most 1's
 
