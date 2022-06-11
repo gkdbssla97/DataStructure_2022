@@ -1128,5 +1128,247 @@ Alg spans(X,S,n) {
 }
 Alg convert() {
     S <- empty Stack
+    while(!endOfFile()) {
+        s < -getSymbol()
+        if (isOperand(s))
+            write(s)
+        else if (s = '(')
+            S.push(s)
+        else if (s = ')') {
+            while (S.top() != '(')
+                write(S.pop())
+            S.pop()
+        } else {
+            while (!S.isEmpty() & (P[s] <= P[S.top()]))
+                write(S.pop())
+            S.push(s)
+        }
+    }
+    while(!S.isEmpty())
+        write(S.pop())
+    return
+}
+Alg convert() {
+    S <- empty Stack
+    while(!endOfFile()) {
+        s <- getSymbol()
+        if(isOperand(s))
+            write(s)
+        else if(s = '(')
+            S.push(s)
+        else if(s = ')') {
+            while (S.top() != ')')
+                write(S.pop())
+            S.pop()
+        }
+        else {
+            while(!S.isEmpty() & (P[s] <= P[S.top()]))
+                write(S.pop())
+            S.push(s)
+        }
+    }
+    while(!S.isEmpty())
+        write(S.pop())
+    return
+}
+Alg evaluate() {
+    S <- empty Stack
+    while(!endOfFile()) {
+        s <- getSymbol()
+        if(isOperand(s)) //피연산자 + -
+            S.push(s)
+        else {
+            a <- S.pop()
+            b <- S.pop()
+            S.push(doOpeartor(s,b,a))
+        }
+    }
+    write(S.pop())
+    return
+}
+Alg doOperator(op, x, y) {
+    switch(op) {
+        '+' : v <- x + y
+        '-' : v <- x - y
+        '*' : v <- x * y
+        '/' : v <- x / y
+    } return v
+}
+Alg push(i, e) {
+    q <- getnode()
+    q.elem <- e
+    q.next <- t[i]
+    t[i] <- q
+    return
+}
+Alg pop(i) {
+    if(isEmpty(i))
+        emptyStackException()
+    e <- t[i].elem
+    q <- t[i]
+    t[i] <- t[i].next
+    putnode(q)
+    return e
+}
+Alg evaluate() {
+    S <-empty Stack
+    while(!endOfFile())
+        s <-getSymbol()
+        if(isOperand(s))
+            S.push(s)
+        else {
+            a <- S.pop()
+            b <- S.pop()
+            S.push(doOpearator(s, b, a))
+        }
+    write(S.pop())
+    return
+}
+Alg doOperator(op, x, y) {
+    switch(op) {
+        ....
 
+    } return v
+}
+Alg convert() { // 후위수식표기
+    S <- stack empty
+    while(!endOfFile()) {
+        s <- getSymbol()
+        if(isOperand(s))
+            S.push(s)
+        else if (s = '(')
+            S.push(s)
+        else if (s = ')') {
+            while(S.top() != '(')
+                write(S.pop())
+            S.pop()
+        }
+        else {
+            while(!S.isEmpty() & (P[s] <= P[S.top()]))
+                write(S.pop())
+            S.push(s)
+        }
+    }
+    while(!S.isEmpty())
+        write(S.pop())
+    return
+}
+threadedPointer insucc(threadedPointer tree) {
+    threadedPointer tmp;
+    tmp = tree->rightChild;
+    if(!tree->rightThread)
+        while(!tmp->leftThread)
+            tmp = tmp->leftChild;
+    return tmp;
+}
+void tinorder(threadedPointer tree) {
+    threadedPointer tmp = tree;
+    for(;;) {
+        tmp = insucc(tmp);
+        if(tree == tmp) break;
+        printf("%3c", tmp->data);
+    }
+}
+void insertRight(threadedPointer r, threadedPointer s) {
+    threadedPointer tmp;
+    r->rightChild = parent->rightChild;
+    r->rightThread = parent->rightThread;
+    r->leftChild = parent;
+    r->leftThread = TRUE;
+    s->rightChild = child;
+    s->rightThread = FALSE;
+    if(!r->rightThread) {
+        tmp = insucc(r);
+        tmp->leftChild = r;
+    }
+}
+Alg preOrdersucc(v) {
+    if(isInternal(v))
+        return leftChild(v)
+    p <- parent(v)
+    while(leftChild(p) != v) {
+        if(isRoot(p))
+            invalid()
+        v <- p
+        p <- parent(p)
+    }
+    return rightChild(p)
+}
+Alg inOrdersucc(v) {
+    if(isInternal(v))
+        v <- rightChild(v)
+        while(isInternal(v))
+            v <- leftChild(v)
+        return v
+    p <- parent(v)
+    while(leftChild(p) != v)
+        if(isRoot(p))
+            invalid()
+        v <- p
+        p <- parent(p)
+    return p
+}
+Alg PostOrderSucc(v) {
+    if(isRoot(v))
+        invalid()
+    p <- parent(v)
+    if(rightChild(p) = v)
+        return p
+    v <- rightChild(p)
+    while(!isExternal(v))
+        v <- leftChild(v)
+    return v
+}
+Alg romanSize(v) {
+    if(isExternal(v))
+        return 1
+    l <- romanSize(leftChild(v))
+    if(l = 0)
+        return 0
+    r <- romanSize(rightChild(v))
+    if((r>0)&(|l-r|<=5))
+        return l + r + 1
+    else
+        return 0
+}
+search(x, k) {
+    if x = NULL
+        then return NULL
+    if k = x->key
+        then return x
+    else if k<x->key
+        then return search(x->left, k)
+    else return search(x->right, k)
+}
+TreeNode *search(TreeNode *node, int key) {
+    if(node == null) return NULL;
+    if(key == node->key) return node;
+    else if(key < node->key)
+        return search(node->left, keyy);
+}
+TreeNode *search(TreeNode *node, int key) {
+    while(node != NULL) {
+        if(key == node->key) return node;
+        else if(key < node->key)
+            node = node->left;
+        else
+            node = node->right;
+    }
+    return NULL;
+}
+
+insert_node(T, z) {
+    p <- NULL
+    t <- root
+    while(t != NULL)
+        do p<-t
+        if(z->key < p->key)
+            then t <- p->left
+        else
+            t <- p->right
+    if p = NULL
+        then root <- z
+    else if z->key < p->key
+        then p->left <- z
+    else p->right <- z 
 }
